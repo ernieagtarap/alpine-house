@@ -1,0 +1,11 @@
+# Alpine House — Behind Your Stay: keep HTML fresh, allow long caching of versioned assets
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  <FilesMatch "\.(js|css|svg|png|jpg|jpeg|webp|mp4|woff2?|pdf)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
