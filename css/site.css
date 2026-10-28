@@ -257,3 +257,33 @@ td{padding:9px 10px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top
 .foot .ah{display:flex;justify-content:center;margin-bottom:14px}
 .foot .ah svg{width:40px;height:auto;display:block}
 .rows .eq{display:block;font-size:.86em;opacity:.7;margin-top:4px}
+
+/* ---------- floating tab bar (liquid glass) ---------- */
+.tabbar{--glass:rgba(22,30,36,.34);--edge:rgba(255,255,255,.2);--hi:rgba(255,255,255,.38);--lens:rgba(255,255,255,.13);--tab-ink:rgba(255,251,234,.78);--tab-on:#FFFBEA;
+  position:fixed;z-index:28;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+  width:min(calc(100% - 28px),430px);height:66px;padding:5px;border-radius:33px;display:grid;grid-template-columns:repeat(5,1fr);
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 55%,rgba(255,255,255,.07)),var(--glass);
+  -webkit-backdrop-filter:blur(16px) saturate(1.9) brightness(1.06);backdrop-filter:blur(16px) saturate(1.9) brightness(1.06);
+  border:1px solid var(--edge);
+  box-shadow:inset 0 1px 0 var(--hi),inset 0 -1px 1px rgba(255,255,255,.08),inset 1px 0 0 rgba(255,255,255,.06),inset -1px 0 0 rgba(255,255,255,.06),0 12px 32px rgba(0,0,0,.32),0 2px 6px rgba(0,0,0,.18);
+  transition:width .45s cubic-bezier(.3,1.25,.5,1),height .45s cubic-bezier(.3,1.25,.5,1),border-radius .45s,bottom .45s;isolation:isolate;overflow:hidden}
+.tabbar::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(120% 90% at 18% -20%,rgba(255,255,255,.28),transparent 55%),radial-gradient(90% 80% at 100% 120%,rgba(255,255,255,.12),transparent 60%)}
+:root[data-theme="light"] .tabbar{--glass:rgba(255,251,234,.66);-webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6);--edge:rgba(255,255,255,.7);--hi:rgba(255,255,255,.95);--lens:rgba(27,26,23,.08);--tab-ink:rgba(27,26,23,.68);--tab-on:#1B1A17;
+  box-shadow:inset 0 1px 0 var(--hi),inset 0 -1px 1px rgba(255,255,255,.5),0 12px 30px rgba(40,34,20,.18),0 2px 6px rgba(40,34,20,.1)}
+.tabbar a{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--tab-ink);border-radius:28px;-webkit-tap-highlight-color:transparent;transition:color .25s}
+.tabbar a svg{width:23px;height:23px;display:block;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.tabbar a span{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.02em;line-height:1;transition:opacity .25s,max-height .3s;max-height:14px;overflow:hidden}
+.tabbar a[aria-current="page"]{color:var(--tab-on)}
+.tabbar a[aria-current="page"] svg{color:var(--accent);transform:scale(1.06)}
+.tabbar a:active svg{transform:scale(.88)}
+.tabbar .lens{position:absolute;z-index:0;top:5px;bottom:5px;left:0;width:0;border-radius:28px;background:var(--lens);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(255,255,255,.06),0 1px 3px rgba(0,0,0,.12);
+  transition:transform .5s cubic-bezier(.3,1.3,.45,1),width .5s cubic-bezier(.3,1.3,.45,1)}
+.tabbar.min{width:min(calc(100% - 120px),300px);height:50px;border-radius:25px}
+.tabbar.min a span{opacity:0;max-height:0}
+.tabbar.min .lens{border-radius:21px}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.tabbar{--glass:rgba(17,25,31,.92)}:root[data-theme="light"] .tabbar{--glass:rgba(255,251,234,.95)}}
+body.locked .tabbar{opacity:0;pointer-events:none}
+.cover-in{padding-bottom:calc(104px + env(safe-area-inset-bottom,0px))!important}
+.foot{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important}

@@ -32,6 +32,23 @@
     const id=cur?(cur.dataset.nav||cur.id):null;
     links.forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+id?'true':'false'));
   }
+
+  /* Floating liquid-glass tab bar: tracks the current section, slides its lens, compacts while scrolling down. */
+  const tabbar=document.getElementById('tabbar'),tabs=[...tabbar.querySelectorAll('a')],lens=tabbar.querySelector('.lens');
+  const tabOf={top:'top',stand:'stand',then:'stand',building:'stand',numbers:'numbers',people:'numbers',takes:'takes',next:'takes',you:'you',fine:'you'};
+  let curTab=null,lastY=scrollY;
+  function placeLens(){const a=tabbar.querySelector('a[aria-current="page"]')||tabs[0];lens.style.width=a.offsetWidth+'px';lens.style.transform='translateX('+a.offsetLeft+'px)'}
+  function setTab(id){if(id===curTab)return;curTab=id;tabs.forEach(a=>{if(a.dataset.tab===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});placeLens()}
+  function tabScroll(){
+    const y=scrollY;let cur=null;const line=y+innerHeight*0.3;
+    for(const c of chapters){if(c.offsetTop<=line)cur=c}
+    setTab(cur?(tabOf[cur.dataset.nav||cur.id]||tabOf[cur.id]||'top'):'top');
+    const dy=y-lastY;if(Math.abs(dy)>6){tabbar.classList.toggle('min',dy>0&&y>innerHeight*0.6);lastY=y}
+  }
+  addEventListener('scroll',tabScroll,{passive:true});addEventListener('resize',placeLens);
+  tabbar.addEventListener('transitionend',e=>{if(e.target===tabbar)placeLens()});
+  tabs.forEach(a=>a.addEventListener('click',()=>{tabbar.classList.remove('min');setTab(a.dataset.tab)}));
+  tabScroll();requestAnimationFrame(placeLens);
   /* Parallax: every edge-to-edge photo lags behind the page once its frame passes the top of the screen,
      so it appears to stick to the top edge while the page slides over it. */
   const still=matchMedia('(prefers-reduced-motion: reduce)'),phone=matchMedia('(max-width: 699px)');
