@@ -252,3 +252,8 @@ td{padding:9px 10px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top
 .partner-tag{font-family:var(--sans);font-size:10px!important;letter-spacing:.2em;text-transform:uppercase;margin:22px auto 10px!important}
 .chapter.sub{padding-top:0}
 .secrule ~ .grid-stats div{border-top:none;padding-top:8px}
+.cover .ah{position:absolute;top:calc(78px + env(safe-area-inset-top,0px));left:0;right:0;z-index:2;color:#FFFBEA;display:flex;justify-content:center;pointer-events:none}
+.cover .ah svg{width:46px;height:auto;display:block;filter:drop-shadow(0 1px 6px rgba(0,0,0,.35))}
+.foot .ah{display:flex;justify-content:center;margin-bottom:14px}
+.foot .ah svg{width:40px;height:auto;display:block}
+.rows .eq{display:block;font-size:.86em;opacity:.7;margin-top:4px}
